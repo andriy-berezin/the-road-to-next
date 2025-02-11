@@ -3,8 +3,8 @@ import React from "react";
 
 import { Placeholder } from "@/components/placeholder";
 import { Button } from "@/components/ui/button";
-import initialData from "@/data";
 import TicketItem from "@/features/ticket/components/ticket-item";
+import { getTicket } from "@/features/ticket/queries/get-ticket"
 import { ticketsPath } from "@/paths";
 type TicketPageProps = {
   params: Promise<{
@@ -12,9 +12,9 @@ type TicketPageProps = {
   }>;
 };
 
-const TicketPage = ({ params }: TicketPageProps) => {
-  const { ticketId } = React.use(params)
-  const ticket = initialData.find((ticket) => ticket.id === Number(ticketId));
+const TicketPage = async ({ params }: TicketPageProps) => {
+  const { ticketId } = await params;
+  const ticket = await getTicket(ticketId)
 
   if (!ticket) {
     return <Placeholder label="Ticket not found" button={
